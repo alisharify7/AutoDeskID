@@ -3,7 +3,7 @@ Description=🚀 automatically gets your AnyDesk ID and sends it to RocketChat.
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 path/to/script/folder
+ExecStart=/usr/bin/python3 path/to/script/python/file
 Restart=always
 User=root
 WorkingDirectory=path/to/script/folder
