@@ -4,6 +4,11 @@
 
 ### A Python script that monitors the connection status of the AnyDesk remote desktop application and sends real-time notifications to a Rocket.Chat room.
 
+
+##  demo ~
+![AnyDesk Monitor & Notifier Logo](demo.png)
+
+
 ## 📋 Features
 
 - 🔐 **Rocket.Chat Authentication**: Logs in to Rocket.Chat API with provided credentials
