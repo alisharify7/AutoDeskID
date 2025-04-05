@@ -9,7 +9,6 @@ INSTALL_DIR="$HOME/AutoDeskID"
 SERVICE_DIR="/etc/systemd/system/"
 SERVICE_NAME="autodeskid"
 
-
 echo "🚀 Downloading AutoDeskID from GitHub..."
 mkdir -p "$TMP_DIR"
 mkdir -p "$INSTALL_DIR"
@@ -19,26 +18,31 @@ curl -L "$ZIP_URL" -o autodeskid.zip
 echo "📦 Extracting project..."
 unzip -qo autodeskid.zip
 
-echo "📦 install requirements packges ..."
-mv AutoDeskID-main/* $INSTALL_DIR 
-cd $INSTALL_DIR
-pip3  install -r requirements.txt --break-system-packages
-rm $TMP_DIR -rf
+echo "📦 Installing Python dependencies..."
+mv AutoDeskID-main/* "$INSTALL_DIR"
+cd "$INSTALL_DIR"
+pip3 install -r requirements.txt --break-system-packages
 
+echo "🧹 Cleaning up temporary files..."
+rm -rf "$TMP_DIR"
 
+echo "🛠️ Updating service file paths..."
 sed -i "s|path/to/script/python/file|$INSTALL_DIR/src/main.py|g" systemd.service/autodeskid.service
 sed -i "s|path/to/script/folder|$INSTALL_DIR|g" systemd.service/autodeskid.service
 
-cp systemd.service/autodeskid.service /etc/systemd/system
+echo "📁 Copying service file to $SERVICE_DIR..."
+sudo cp systemd.service/autodeskid.service "$SERVICE_DIR"
 
-
+echo "🔄 Reloading systemd daemon..."
 sudo systemctl daemon-reload
 
-sudo systemctl enable autodeskid.service
+echo "📌 Enabling $SERVICE_NAME service..."
+sudo systemctl enable "$SERVICE_NAME.service"
 
-sudo systemctl start autodeskid.service
+echo "▶️ Starting $SERVICE_NAME service..."
+sudo systemctl start "$SERVICE_NAME.service"
 
-sudo systemctl status autodeskid.service
-
+echo "ℹ️ Checking service status..."
+sudo systemctl status "$SERVICE_NAME.service"
 
 echo "✅ Installation complete!"
